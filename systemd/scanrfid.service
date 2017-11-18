@@ -1,0 +1,14 @@
+***ScanRFID Service***
+[Unit]
+Description=RFID Polling Agent
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/home/pi/RetroPie-Custom/scanrfid.py
+User=pi
+WorkingDirectory=/home/pi/RetroPie-Custom
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
