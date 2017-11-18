@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+#check if service is active, so we can return to it's state after
+restart_service=`systemctl -q is-active scanrfid.service && echo YES || echo NO`
+
+if [[ "YES" = $restart_service ]];
+then
+    echo "stopping card reader service"
+fi
+
+echo "waiting for scan (or cancellation)"
+dialog --title "Scan Item" --msgbox 'Hold RFID item close to sensor' 6 20
+#dpid=$!
+
+python /home/pi/RetroPie-Custom/scanrfid.py register
+
+#kill $dpid
+
+if [[ "YES" = $restart_service ]];
+then
+    echo "restarting card reader service"
+else
+    echo "reader service is not running, will not restart"
+fi
+
+
+echo $@ > /tmp/rcmenu.log
+
