@@ -74,7 +74,7 @@ python Read.py
 
 #if it works, move the lib to a global locaiton
 mkdir -p /home/pi/.local/lib/python2.7/site-packages
-cp MFRC522.py .local/lib/python2.7/site-packages/
+cp MFRC522.py /home/pi/.local/lib/python2.7/site-packages/
 
 
 ```
