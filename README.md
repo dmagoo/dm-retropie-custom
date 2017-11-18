@@ -19,6 +19,8 @@ sudo apt-get install git
 sudo apt-get install python-dev
 sudo apt-get install scons
 sudo apt-get install swig
+cd
+mkdir ~/tmp
 git clone https://github.com/jgarff/rpi_ws281x.git
 cd rpi_ws281x
 scons
