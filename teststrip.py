@@ -1,6 +1,6 @@
 import sys
 import signal
-from Matrix import Matrix
+from display import Matrix
 
 # Capture SIGINT for cleanup when the script is aborted
 def end_read(signal,frame):
