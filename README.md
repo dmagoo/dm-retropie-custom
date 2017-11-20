@@ -31,7 +31,7 @@ sudo python strandtest.py
 ```
 
 
-SETUP FOR MATRIX
+SETUP FOR MATRIX HARDWARE
 ==================
 Make sure the following lines exist (and are uncommented) in /boot/config.txt
 
@@ -41,6 +41,11 @@ hdmi_force_edid_audio=1
 Make sure retropi menu audio is set to auto (at least not 3.5 jack)
 
 When working w/ neopixel lib, make sure brightness setting is low. Lights are ridiculously bright.  Try 8 (out of 255!).  Plenty bright for this
+
+SETUP FOR MATRIX SOFTWARE
+=================
+sudo apt-get install python-numpy python-scipy
+
 
 DEV FOR MATRIX HOOKS
 ===================
