@@ -74,7 +74,7 @@ class Matrix:
         time.sleep(1)
         self.write().strip.show()
         print "write sleep 10"
-        time.sleep(10)
+        time.sleep(1)
         self.drawLetters().strip.show()
         time.sleep(1)
         self.setStripColor(COLOR_RED).strip.show()

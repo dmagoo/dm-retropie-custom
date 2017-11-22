@@ -1,14 +1,18 @@
 import scipy.misc
 import numpy as np
+from rectangle import Rectangle
+from mask import Mask
 
-def blit(source, target, source_rect, target_rect):
+def old_blit(source, target, source_rect, target_rect):
     """ DOES NOT WORK WORK WITH NEGATIVE OFFSETS. PROBABLY HAS ISSUES W/ OVERLAPS   """
 
-    source_start_pos = source_rect[0:2]
-    source_end_pos = [source_rect[0] + source_rect[2]-1,source_rect[1] + source_rect[3]-1]
+    source_start_pos = source_rect.origin
+    source_end_pos = [source_rect.x + source_rect.width-1,source_rect.y + source_rect.height-1]
 
-    target_start_pos = [i if i >= 0 else 0 for i in target_rect[0:2]]
-    target_end_pos = [target_rect[i]+target_rect[i+2]-1 if (target_rect[i]+target_rect[i+2]-1) < target.shape[i] else target.shape[i]-1 for i in [0,1]]
+    target_start_pos = [i if i >= 0 else 0 for i in target_rect.origin]
+    target_end_pos = [
+        target_rect.x+target_rect.width-1 if (target_rect.x+target_rect.width-1) < target.shape[0] else target.shape[0]-1,
+        target_rect.y+target_rect.height-1 if (target_rect.y+target_rect.height-1) < target.shape[1] else target.shape[1]-1]
 
     #np.set_printoptions(threshold='nan')
     """
@@ -36,9 +40,9 @@ class spritesheet(object):
         rectangle is defined as:
         x, y, width, height
         """
-        image = np.zeros((rectangle[2], rectangle[3]))
+        image = np.zeros(rectangle.size)
 
-        blit(self.sheet, image, rectangle, (0, 0, rectangle[2], rectangle[3]))
+        old_blit(self.sheet, image, rectangle, Rectangle((0, 0, rectangle.width, rectangle.height)))
         return image
 
     # Load a whole bunch of images and return them as a list
@@ -49,9 +53,9 @@ class spritesheet(object):
     # Load a whole strip of images
     def load_strip(self, rect, image_count):
         "Loads a strip of images and returns them as a list"
-        tups = [(rect[0]+rect[2]*x, rect[1], rect[2], rect[3])
+        rects = [Rectangle((rect.x+rect.width*x, rect.y, rect.width, rect.height))
                 for x in range(image_count)]
-        return self.images_at(tups)
+        return self.images_at(rects)
 
 
 def rip_ascii_sprites(spritesheet_path):
@@ -64,7 +68,7 @@ def rip_ascii_sprites(spritesheet_path):
 
     img = []
     for row in range(rows):
-        img = img + ss.load_strip((0,row*h,h,w),32)
+        img = img + ss.load_strip(Rectangle((0,row*h,h,w)),32)
 
 
     #map ascii chars to image indexes
