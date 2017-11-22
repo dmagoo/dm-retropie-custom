@@ -3,6 +3,7 @@ import numpy as np
 from rectangle import Rectangle
 from mask import Mask
 from surface import Surface
+from blit import blit
 
 def old_blit(source, target, source_rect, target_rect):
     """ DOES NOT WORK WORK WITH NEGATIVE OFFSETS. PROBABLY HAS ISSUES W/ OVERLAPS   """
@@ -34,17 +35,16 @@ class spritesheet(object):
 
     def __init__(self, filename):
         self.sheet = Surface.fromArray(scipy.misc.imread(filename))
-            
-    def image_at(self, rectangle):
+    def image_at(self, target_rectangle):
         """
         Loads image from x,y,x+offset,y+offset
         rectangle is defined as:
         x, y, width, height
         """
         #image = np.zeros(rectangle.size)
-        image = Mask(rectangle.size)
+        image = Mask(target_rectangle.size)
 
-        old_blit(self.sheet, image, rectangle, Rectangle((0, 0, rectangle.width, rectangle.height)))
+        blit(self.sheet, image, target_rectangle)
 
         return image
 

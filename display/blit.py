@@ -5,13 +5,20 @@ from rectangle import Rectangle
 def blit(source, target, source_rect=None, target_rect=None):
     sr,tr = get_blit_maps(source, target, source_rect, target_rect)
 
-    if None is sr:
-        raise ValueError("Cannot map source to target")
+    """ TODO: Replace the below loops w/ this format
+    Bonus points if profiling is done to see which is faster!:
+    target.pixels[
+        target_start_pos[1]:target_end_pos[1]+1,
+        target_start_pos[0]:target_end_pos[0]+1
+    ] = source.pixels[
+        source_start_pos[1]:source_end_pos[1]+1,
+        source_start_pos[0]:source_end_pos[0]+1
+    ]
+    """
 
     for y in range(sr.height):
         for x in range(sr.width):
-            target.pixels[y+tr.y][x+tr.x] = source.pixels[y+sr.y][x+sr.x]
-
+                target.pixels[y+tr.y][x+tr.x] = source.pixels[y+sr.y][x+sr.x]
         x += 1
     y += 1
 
@@ -23,6 +30,7 @@ def get_blit_maps(source, target, source_rect=None, target_rect=None):
     if source_rect is not None:
         source_x = source_rect.x
         width = source_rect.width
+
         if source_x < 0:
             width += source_x
             target_rect.x -= source_x
@@ -72,13 +80,11 @@ def get_blit_maps(source, target, source_rect=None, target_rect=None):
         target_rect.height = height
         sr = Rectangle((source_x, source_y, width, height))
         #return Rectangle((source_x, source_y, width, height))
-        print "result: ",
-        print ("%i,%i,%i,%i" % (sr.x, sr.y, sr.width, sr.height)),
-        print " -> ",
-        print ("%i,%i,%i,%i" % (target_rect.x, target_rect.y, target_rect.width, target_rect.height))
-        print "===================="
+        #print "result: ",
+        #print ("%i,%i,%i,%i" % (sr.x, sr.y, sr.width, sr.height)),
+        #print " -> ",
+        #print ("%i,%i,%i,%i" % (target_rect.x, target_rect.y, target_rect.width, target_rect.height))
+        #print "===================="
         return [sr, target_rect]
-	#return SDL_LowerBlit(source, sr, target, target_rect);
-    return None
-    #print "FALL THROUGH... error?"
-        
+
+    raise ValueError("Cannot map source to target")
