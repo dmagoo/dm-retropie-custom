@@ -11,8 +11,7 @@ class Renderable:
 
         self.rect = Rectangle((0,0,size[0],size[1]))
         self.pixels = np.full((size[1],size[0]), self._init_value)
-
-
+    
     #see blit.notes for sdl implementation
     def blit(source, dest):
         """ DOES NOT WORK WORK WITH NEGATIVE OFFSETS. PROBABLY HAS ISSUES W/ OVERLAPS

@@ -63,7 +63,7 @@ class Matrix:
             x = 0
             for i in range(len(my_str)):
                 img = self._ascii.get(ord(my_str[i]))
-                for pixel in img[y]:
+                for pixel in img.pixels[y]:
                     self.strip.setPixelColor(self._matrix_map[y][x], COLOR_BLUE if pixel else COLOR_BLACK)
                     x = x+1
         return self

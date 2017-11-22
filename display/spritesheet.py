@@ -2,6 +2,7 @@ import scipy.misc
 import numpy as np
 from rectangle import Rectangle
 from mask import Mask
+from surface import Surface
 
 def old_blit(source, target, source_rect, target_rect):
     """ DOES NOT WORK WORK WITH NEGATIVE OFFSETS. PROBABLY HAS ISSUES W/ OVERLAPS   """
@@ -11,8 +12,8 @@ def old_blit(source, target, source_rect, target_rect):
 
     target_start_pos = [i if i >= 0 else 0 for i in target_rect.origin]
     target_end_pos = [
-        target_rect.x+target_rect.width-1 if (target_rect.x+target_rect.width-1) < target.shape[0] else target.shape[0]-1,
-        target_rect.y+target_rect.height-1 if (target_rect.y+target_rect.height-1) < target.shape[1] else target.shape[1]-1]
+        target_rect.x+target_rect.width-1 if (target_rect.x+target_rect.width-1) < target.pixels.shape[0] else target.pixels.shape[0]-1,
+        target_rect.y+target_rect.height-1 if (target_rect.y+target_rect.height-1) < target.pixels.shape[1] else target.pixels.shape[1]-1]
 
     #np.set_printoptions(threshold='nan')
     """
@@ -21,10 +22,10 @@ def old_blit(source, target, source_rect, target_rect):
         source_start_pos[0]:source_end_pos[0]+1
     ]
     """
-    target[
+    target.pixels[
         target_start_pos[1]:target_end_pos[1]+1,
         target_start_pos[0]:target_end_pos[0]+1
-    ] = source[
+    ] = source.pixels[
         source_start_pos[1]:source_end_pos[1]+1,
         source_start_pos[0]:source_end_pos[0]+1
     ]
@@ -32,7 +33,7 @@ def old_blit(source, target, source_rect, target_rect):
 class spritesheet(object):
 
     def __init__(self, filename):
-        self.sheet = scipy.misc.imread(filename)
+        self.sheet = Surface.fromArray(scipy.misc.imread(filename))
             
     def image_at(self, rectangle):
         """
@@ -40,9 +41,11 @@ class spritesheet(object):
         rectangle is defined as:
         x, y, width, height
         """
-        image = np.zeros(rectangle.size)
+        #image = np.zeros(rectangle.size)
+        image = Mask(rectangle.size)
 
         old_blit(self.sheet, image, rectangle, Rectangle((0, 0, rectangle.width, rectangle.height)))
+
         return image
 
     # Load a whole bunch of images and return them as a list

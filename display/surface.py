@@ -1,5 +1,12 @@
 from renderable import Renderable
 
 class Surface(Renderable):
-    pass
+    @staticmethod
+    def fromArray(np_array):
+        ret = Surface(np_array.shape)
+        ret.pixels = np_array
+        return ret
+
+
+
 
