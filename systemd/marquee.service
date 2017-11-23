@@ -1,0 +1,14 @@
+***LED Marquee Service***
+[Unit]
+Description=LED Marquee Agent
+After=multi-user.target
+
+[Service]
+Type=simple
+ExecStart=/home/pi/RetroPie-Custom/marqueeserver.py
+User=pi
+WorkingDirectory=/home/pi/RetroPie-Custom
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

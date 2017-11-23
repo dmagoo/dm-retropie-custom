@@ -9,10 +9,10 @@ class TextScroll(Animation):
     text = None
     text_surface = None
     loop = True
-    dx = 2
-    dy = 1
+    dx = -2
+    dy = 0
 
-    def __init__(self, text=None):
+    def __init__(self, text, viewport):
         self.text = str(text)
         #todo, move this to something more global
         print "ripping again - TODO, not this!"
@@ -42,13 +42,10 @@ class TextScroll(Animation):
             left += img.rect.width
         print "writing final source surface"
         self.text_surface.blit(self.text_surface,target_mask=tmp_mask)
-        self.start_rect = Rectangle(
-            (-self.text_surface.rect.width,
-             0,
-             self.text_surface.rect.width,
-             self.text_surface.rect.height
-            )
-        )
+
+        self.start_rect = copy(viewport)
+        self.start_rect.x = viewport.width
+
         print "completing init"
         super( TextScroll, self ).__init__(
             self.text_surface,
@@ -66,12 +63,20 @@ class TextScroll(Animation):
     def next(self):
         self.target_rect.x += self.dx
         self.target_rect.y += self.dy
-        #print "tock"
 
-        if self.loop and self.target_rect.x > self.target_rect.width:
-            self.target_rect.x = self.start_rect.x
+        if self.loop:
+            if (
+                    self.dx > 0 and self.target_rect.x > self.surface.rect.width
+            ) or (
+                self.dx <= 0 and self.target_rect.x+self.surface.rect.width < 0
+            ):
+                self.target_rect.x = self.start_rect.x
 
-        if self.loop and self.target_rect.y > self.target_rect.height:
-            self.target_rect.y = self.start_rect.y
+            if (
+                    self.dy > 0 and self.target_rect.y > self.surface.rect.height
+            ) or (
+                self.dy <= 0 and self.target_rect.y+self.surface.rect.height < 0
+            ):
+                self.target_rect.y = self.start_rect.y
 
         return True

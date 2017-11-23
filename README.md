@@ -111,16 +111,19 @@ reboot
 Installation of custom Retro Pie scripts
 #Copy .system file to:
 cp /home/pi/RetroPie-Custom/systemd/scanrfid.service /etc/systemd/system/
+cp /home/pi/RetroPie-Custom/systemd/marquee.service /etc/systemd/system/
 
 #make sure python executable can be run by pi
 chmod +x /home/pi/RetroPie-Custom/scanrfid.py
 
 #enable:
 sudo systemctl enable scanrfid.service
+sudo systemctl enable marquee.service
 
 sudo systemctl daemon-reload
 
 sudo systemctl start scanrfid.service
+sudo systemctl start marquee.service
 
 #move emustation scripts
 cp -r /home/pi/RetroPie-Custom/runcommand/* /opt/retropie/configs/all/

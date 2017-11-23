@@ -73,18 +73,6 @@ class Matrix:
     def test(self):
         print "strip initializaiton"
         self.strip.begin()
-
-        print "creating animation"
-        anim = TextScroll("GO! GO! GO! GO! GO! GO! GO!")
-        print "starting animation"
-        for tick in anim.run(self._master_surface, 100):
-            self.write().strip.show()
-        self.clearStrip().strip.show()
-        return
-        print "write sleep 10"
-        time.sleep(1)
-        self.drawLetters().strip.show()
-        time.sleep(1)
         self.setStripColor(COLOR_RED).strip.show()
         time.sleep(1)
         self.setStripColor(COLOR_GREEN).strip.show()
@@ -93,6 +81,14 @@ class Matrix:
         time.sleep(1)
         self.setStripColor(COLOR_WHITE).strip.show()
         time.sleep(1)
+        print "creating animation"
+        anim = TextScroll("Marquee Functional", self._master_surface.rect)
+        print "starting animation"
+        for tick in anim.run(self._master_surface, 100):
+            self.write().strip.show()
+        self.clearStrip().strip.show()
+        return
+        print "write sleep 10"
         #cycle through a list of colors
         colors = [COLOR_BLACK,COLOR_WHITE,COLOR_BLUE,COLOR_GREEN,COLOR_RED]
         #colors = [next(color_list) for i in range(5)]
