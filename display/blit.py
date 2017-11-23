@@ -2,8 +2,8 @@ from copy import copy
 import numpy as np
 from rectangle import Rectangle
 
-def blit(source, target, source_rect=None, target_rect=None, target_mask=None):
-    sr,tr = get_blit_maps(source, target, source_rect, target_rect)
+def blit(target, source, target_rect=None, source_rect=None, target_mask=None):
+    sr,tr = get_blit_maps(target, source, target_rect, source_rect)
 
     if target_mask is not None and target_mask.rect.size != target.rect.size:
         raise ValueError("Target mask dimensions must match target dimensions")
@@ -30,7 +30,7 @@ def blit(source, target, source_rect=None, target_rect=None, target_mask=None):
     y += 1
     """
 
-def get_blit_maps(source, target, source_rect=None, target_rect=None):
+def get_blit_maps(target, source, target_rect=None, source_rect=None):
     """returns a rectangular window into source and target, highlighting where pixels align"""
     target_rect = copy(target.rect if target_rect is None else target_rect)
 

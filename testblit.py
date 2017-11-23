@@ -44,6 +44,6 @@ for r in [
     rect = target.rect if r[1] is None else r[1]
     print ("%i,%i,%i,%i" % (rect.x, rect.y, rect.width, rect.height))
     target_copy = deepcopy(target)
-    blit(source, target_copy, r[0], r[1])
+    blit(target_copy, source, r[1], r[0])
     print "||||||||||| OUTPUT ||||||||||||"
     print_surface(target_copy)

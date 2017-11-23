@@ -5,46 +5,18 @@ from mask import Mask
 from surface import Surface
 from blit import blit
 
-def old_blit(source, target, source_rect, target_rect):
-    """ DOES NOT WORK WORK WITH NEGATIVE OFFSETS. PROBABLY HAS ISSUES W/ OVERLAPS   """
-
-    source_start_pos = source_rect.origin
-    source_end_pos = [source_rect.x + source_rect.width-1,source_rect.y + source_rect.height-1]
-
-    target_start_pos = [i if i >= 0 else 0 for i in target_rect.origin]
-    target_end_pos = [
-        target_rect.x+target_rect.width-1 if (target_rect.x+target_rect.width-1) < target.pixels.shape[0] else target.pixels.shape[0]-1,
-        target_rect.y+target_rect.height-1 if (target_rect.y+target_rect.height-1) < target.pixels.shape[1] else target.pixels.shape[1]-1]
-
-    #np.set_printoptions(threshold='nan')
-    """
-    print  source[
-        source_start_pos[1]:source_end_pos[1]+1,
-        source_start_pos[0]:source_end_pos[0]+1
-    ]
-    """
-    target.pixels[
-        target_start_pos[1]:target_end_pos[1]+1,
-        target_start_pos[0]:target_end_pos[0]+1
-    ] = source.pixels[
-        source_start_pos[1]:source_end_pos[1]+1,
-        source_start_pos[0]:source_end_pos[0]+1
-    ]
-
 class spritesheet(object):
-
     def __init__(self, filename):
         self.sheet = Surface.fromArray(scipy.misc.imread(filename))
-    def image_at(self, target_rectangle):
+    def image_at(self, source_rect):
         """
         Loads image from x,y,x+offset,y+offset
         rectangle is defined as:
         x, y, width, height
         """
-        #image = np.zeros(rectangle.size)
-        image = Mask(target_rectangle.size)
+        image = Mask(source_rect.size)
 
-        blit(self.sheet, image, target_rectangle)
+        blit(image, self.sheet, source_rect=source_rect)
 
         return image
 
