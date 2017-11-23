@@ -38,10 +38,10 @@ for r in [
     print "=================="
     print r[2]
     print "passing in: ",
-    rect = source.viewport if r[0] is None else r[0]
+    rect = source.rect if r[0] is None else r[0]
     print ("%i,%i,%i,%i" % (rect.x, rect.y, rect.width, rect.height)),
     print " -> ",
-    rect = target.viewport if r[1] is None else r[1]
+    rect = target.rect if r[1] is None else r[1]
     print ("%i,%i,%i,%i" % (rect.x, rect.y, rect.width, rect.height))
     target_copy = deepcopy(target)
     blit(source, target_copy, r[0], r[1])

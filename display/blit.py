@@ -2,25 +2,33 @@ from copy import copy
 import numpy as np
 from rectangle import Rectangle
 
-def blit(source, target, source_rect=None, target_rect=None):
+def blit(source, target, source_rect=None, target_rect=None, target_mask=None):
     sr,tr = get_blit_maps(source, target, source_rect, target_rect)
 
-    """ TODO: Replace the below loops w/ this format
-    Bonus points if profiling is done to see which is faster!:
-    target.pixels[
-        target_start_pos[1]:target_end_pos[1]+1,
-        target_start_pos[0]:target_end_pos[0]+1
-    ] = source.pixels[
-        source_start_pos[1]:source_end_pos[1]+1,
-        source_start_pos[0]:source_end_pos[0]+1
-    ]
-    """
+    if target_mask is not None and target_mask.rect.size != target.rect.size:
+        raise ValueError("Target mask dimensions must match target dimensions")
 
+    value_matrix = source.pixels[
+        sr.y:sr.y+sr.height,
+        sr.x:sr.x+sr.width
+    ]
+
+    if target_mask is not None:
+        value_matrix = np.multiply(value_matrix, target_mask.pixels)
+
+    target.pixels[
+        tr.y:tr.y+tr.height,
+        tr.x:tr.x+tr.width
+    ] = value_matrix
+
+    """
+    old way. about 10 times slower
     for y in range(sr.height):
         for x in range(sr.width):
-                target.pixels[y+tr.y][x+tr.x] = source.pixels[y+sr.y][x+sr.x]
+                target.pixels[y+tr.y][x+tr.x] = source.pixels[y+sr.y][x+sr.x] * (target_mask.pixels[y+tr.y][x+tr.x] if target_mask is not None else 1)
         x += 1
     y += 1
+    """
 
 def get_blit_maps(source, target, source_rect=None, target_rect=None):
     """returns a rectangular window into source and target, highlighting where pixels align"""

@@ -6,6 +6,8 @@ from mask import Mask
 from surface import Surface
 from rectangle import Rectangle
 
+from animation import TextScroll
+
 COLOR_BLACK = Color(0, 0, 0)
 COLOR_RED = Color(255, 0, 0)
 COLOR_GREEN = Color(0, 255, 0)
@@ -29,14 +31,14 @@ class Matrix:
         self.freq_hz = 800000
         self.dma = 5
         self.invert = False
-        self.brightness = 8
+        self.brightness = 16
         self.channel = 0
         self.strip_type = ws.WS2812_STRIP
 
         self.strip = Adafruit_NeoPixel(self.width*self.height, self.gpio_pin, self.freq_hz, self.dma, self.invert, self.brightness, self.channel, self.strip_type)
 
         self.__createMatrixMap()
-        self.__createAlphabet()
+        #self.__createAlphabet()
         self.__createSurfaces()
         
     def clearStrip(self):
@@ -69,10 +71,16 @@ class Matrix:
         return self
 
     def test(self):
+        print "strip initializaiton"
         self.strip.begin()
+
+        print "creating animation"
+        anim = TextScroll("GO! GO! GO! GO! GO! GO! GO!")
+        print "starting animation"
+        for tick in anim.run(self._master_surface, 100):
+            self.write().strip.show()
         self.clearStrip().strip.show()
-        time.sleep(1)
-        self.write().strip.show()
+        return
         print "write sleep 10"
         time.sleep(1)
         self.drawLetters().strip.show()
@@ -128,12 +136,10 @@ class Matrix:
         print "ripping alphabet sprites"
         self._ascii = rip_ascii_sprites("/home/pi/RetroPie-Custom/assets/glyphs/C64-font.bmp")
 
-
     def __createSurfaces(self):
-        viewport = Rectangle((0,0,self.width,self.height))
-        self._master_surface = Surface(viewport.size, viewport)
+        self._master_surface = Surface((self.width,self.height))
         self._master_surface.pixels.fill(COLOR_YELLOW)
-        self._master_mask = Mask(viewport.size, viewport)
+        self._master_mask = Mask(self._master_surface.rect.size)
         self._master_mask.pixels[0][0] = 0
         self._master_mask.pixels[1][0] = 0
         self._master_mask.pixels[2][0] = 0
