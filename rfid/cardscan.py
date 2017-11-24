@@ -1,7 +1,10 @@
 import logging, time
 import MFRC522
 
+#so the same card does not get continuously read
 SCAN_DELAY = 10
+#make a 2 second delay between loops to save cpu
+READ_DELAY = 2
 registered_games = {"62,170,161,185" : ["0", "_SYS_", "nes", "/home/pi/RetroPie/roms/nes/Megaman.nes"]}
 
 class CardScanner:
@@ -11,12 +14,9 @@ class CardScanner:
         self.reader = MFRC522.MFRC522()
 
     def poll_for_scan(self):
-        #print "I"
-        #yield '123'
-        #time.sleep(100)
         continue_reading = True
         while continue_reading:
-            
+            time.sleep(READ_DELAY)
             # Scan for cards    
             (status,TagType) = self.reader.MFRC522_Request(self.reader.PICC_REQIDL)
 

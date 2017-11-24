@@ -1,4 +1,3 @@
-***ScanRFID Service***
 [Unit]
 Description=RFID Polling Agent
 After=multi-user.target

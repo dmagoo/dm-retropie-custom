@@ -55,6 +55,17 @@ https://github.com/RetroPie/RetroPie-Setup/wiki/Runcommand
 cd /opt/retropie/configs/all
 add hooks in runcommand-onstart.sh and/or runcommand-onend.sh
 
+
+Setup IPC
+=================
+mkdir ~/tmp/ipc
+cd ~/tmp/ipc
+wget http://semanchuk.com/philip/sysv_ipc/sysv_ipc-0.7.0.tar.gz
+tar -xvf sysv_ipc-0.7.0.tar.gz
+cd sysv_ipc-0.7.0/
+sudo python setup.py install
+
+
 Setup RFID
 ===============
 
@@ -110,11 +121,12 @@ reboot
 
 Installation of custom Retro Pie scripts
 #Copy .system file to:
-cp /home/pi/RetroPie-Custom/systemd/scanrfid.service /etc/systemd/system/
-cp /home/pi/RetroPie-Custom/systemd/marquee.service /etc/systemd/system/
+sudo cp /home/pi/RetroPie-Custom/systemd/scanrfid.service /etc/systemd/system/
+sudo cp /home/pi/RetroPie-Custom/systemd/marquee.service /etc/systemd/system/
 
 #make sure python executable can be run by pi
 chmod +x /home/pi/RetroPie-Custom/scanrfid.py
+chmod +x /home/pi/RetroPie-Custom/marqueeserver.py
 
 #enable:
 sudo systemctl enable scanrfid.service
