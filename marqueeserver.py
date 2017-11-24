@@ -22,8 +22,8 @@ def end_read(signal,frame):
 signal.signal(signal.SIGINT, end_read)
 
 logging.info("Matrix Initialization and Test")
-#matrix = Matrix(32,8)
-#matrix.test()
+matrix = Matrix(32,8)
+matrix.test()
 logging.info("Matrix Test Complete")
 mq = sysv_ipc.MessageQueue(MQ_KEY, sysv_ipc.IPC_CREAT)
 

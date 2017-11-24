@@ -114,9 +114,18 @@ sudo nano /etc/modprobe.d/alsa-base.conf
 #add
 0 snd_usb_audio
 1 snd_bcm2835
-reboot
-  
 
+sudo nano /etc/asound.conf
+
+ADD:
+pcm.card1 {
+type hw card 1
+}
+ctl.card1 {
+type hw card 1
+}
+
+pcm.!default card1
 
 
 Installation of custom Retro Pie scripts
