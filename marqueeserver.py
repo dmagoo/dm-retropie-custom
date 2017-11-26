@@ -1,12 +1,16 @@
 #!/usr/bin/python
 import sys, signal, logging, time
 import sysv_ipc
+
+from __init__ import getConfig
 from display import Matrix
 
-MQ_KEY = 98764
+config = getConfig()
+
+MQ_KEY = gonfig.getint('marquee', 'message_queue_key')
 READ_DELAY = 2
 
-logging.basicConfig(filename='/tmp/retropie-custom.log',
+logging.basicConfig(filename=config.get('logging', 'log_path'),
                     level=logging.DEBUG,
                     format='%(asctime)s [marqueeserver] %(message)s'
 )
