@@ -7,7 +7,7 @@ from display import Matrix
 
 config = getConfig()
 
-MQ_KEY = gonfig.getint('marquee', 'message_queue_key')
+MQ_KEY = config.getint('display', 'message_queue_key')
 READ_DELAY = 2
 
 logging.basicConfig(filename=config.get('logging', 'log_path'),
