@@ -84,11 +84,13 @@ class Matrix:
         print "creating animation"
         anim = TextScroll("Marquee Functional", self._master_surface.rect)
         print "starting animation"
-        for tick in anim.run(self._master_surface, 100):
+        for tick in anim.run(self._master_surface, 200):
+            time.sleep(1/20.0)
             self.write().strip.show()
         self.clearStrip().strip.show()
+
+        #the following will slow down the startup routine. don't do that
         return
-        print "write sleep 10"
         #cycle through a list of colors
         colors = [COLOR_BLACK,COLOR_WHITE,COLOR_BLUE,COLOR_GREEN,COLOR_RED]
         #colors = [next(color_list) for i in range(5)]
