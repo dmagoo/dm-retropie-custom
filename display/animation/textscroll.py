@@ -8,7 +8,7 @@ from ..spritesheet import rip_ascii_sprites
 class TextScroll(Animation):
     text = None
     text_surface = None
-    loop = True
+    loop = False
     dx = -2
     dy = 0
 

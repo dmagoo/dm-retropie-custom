@@ -17,13 +17,15 @@ logging.basicConfig(filename=config.get('logging', 'log_path'),
 
 logging.info("starting up")
 
-# Capture SIGINT for cleanup when the script is aborted
+# Capture SIGINT for cleanup when the script is aborted via ctlr-c
+# and sigterm when aborted by systemd
 def end_read(signal,frame):
     logging.info("CTRL-C detected, shutting down")
     matrix.clearStrip().strip.show()
     sys.exit()
 
 signal.signal(signal.SIGINT, end_read)
+signal.signal(signal.SIGTERM, end_read)
 
 logging.info("Matrix Initialization and Test")
 matrix = Matrix(32,8)

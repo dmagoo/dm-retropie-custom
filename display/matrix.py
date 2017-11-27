@@ -8,6 +8,8 @@ from rectangle import Rectangle
 
 from animation import TextScroll
 
+import numpy as np
+
 COLOR_BLACK = Color(0, 0, 0)
 COLOR_RED = Color(255, 0, 0)
 COLOR_GREEN = Color(0, 255, 0)
@@ -58,29 +60,17 @@ class Matrix:
                 self.strip.setPixelColor(self._matrix_map[y][x], color)
         return self
 
-    def drawLetters(self):
-        my_str = "ABCD"
-        
-        for y in range(8):
-            x = 0
-            for i in range(len(my_str)):
-                img = self._ascii.get(ord(my_str[i]))
-                for pixel in img.pixels[y]:
-                    self.strip.setPixelColor(self._matrix_map[y][x], COLOR_BLUE if pixel else COLOR_BLACK)
-                    x = x+1
-        return self
-
     def test(self):
         print "strip initializaiton"
         self.strip.begin()
         self.setStripColor(COLOR_RED).strip.show()
-        time.sleep(1)
+        time.sleep(1/2.0)
         self.setStripColor(COLOR_GREEN).strip.show()
-        time.sleep(1)
+        time.sleep(1/2.0)
         self.setStripColor(COLOR_BLUE).strip.show()
-        time.sleep(1)
+        time.sleep(1/2.0)
         self.setStripColor(COLOR_WHITE).strip.show()
-        time.sleep(1)
+        time.sleep(1/2.0)
         print "creating animation"
         anim = TextScroll("Marquee Functional", self._master_surface.rect)
         print "starting animation"
@@ -88,7 +78,6 @@ class Matrix:
             time.sleep(1/20.0)
             self.write().strip.show()
         self.clearStrip().strip.show()
-
         #the following will slow down the startup routine. don't do that
         return
         #cycle through a list of colors
@@ -138,17 +127,3 @@ class Matrix:
         self._master_surface = Surface((self.width,self.height))
         self._master_surface.pixels.fill(COLOR_YELLOW)
         self._master_mask = Mask(self._master_surface.rect.size)
-        self._master_mask.pixels[0][0] = 0
-        self._master_mask.pixels[1][0] = 0
-        self._master_mask.pixels[2][0] = 0
-        self._master_mask.pixels[3][0] = 0
-        self._master_mask.pixels[4][0] = 0
-        self._master_mask.pixels[5][0] = 0
-        self._master_mask.pixels[6][0] = 0
-        self._master_mask.pixels[0][22] = 0
-        self._master_mask.pixels[1][23] = 0
-        self._master_mask.pixels[2][24] = 0
-        self._master_mask.pixels[3][25] = 0
-        self._master_mask.pixels[4][26] = 0
-        self._master_mask.pixels[5][27] = 0
-        self._master_mask.pixels[6][28] = 0        
