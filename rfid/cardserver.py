@@ -50,10 +50,8 @@ class CardServer:
         """ TODO: Clear the queue """
         #check queue for latest mode change request
         try:
-            logging.info("check")
             m = self.mq.receive(False, MESSAGE_TYPE_REGISTER)
             if m:
-                logging.info("found")
                 logging.info(m)
                 return 10
         except sysv_ipc.BusyError:
