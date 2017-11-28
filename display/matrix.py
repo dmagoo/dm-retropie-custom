@@ -74,7 +74,7 @@ class Matrix:
         print "creating animation"
         anim = TextScroll("Marquee Functional", self._master_surface.rect)
         print "starting animation"
-        for tick in anim.run(self._master_surface, 200):
+        for tick in anim.run(self._master_surface):
             time.sleep(1/20.0)
             self.write().strip.show()
         self.clearStrip().strip.show()

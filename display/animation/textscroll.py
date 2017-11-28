@@ -64,19 +64,23 @@ class TextScroll(Animation):
         self.target_rect.x += self.dx
         self.target_rect.y += self.dy
 
-        if self.loop:
-            if (
-                    self.dx > 0 and self.target_rect.x > self.surface.rect.width
-            ) or (
-                self.dx <= 0 and self.target_rect.x+self.surface.rect.width < 0
-            ):
-                self.target_rect.x = self.start_rect.x
 
-            if (
-                    self.dy > 0 and self.target_rect.y > self.surface.rect.height
-            ) or (
-                self.dy <= 0 and self.target_rect.y+self.surface.rect.height < 0
-            ):
+        if (
+                self.dx > 0 and self.target_rect.x > self.surface.rect.width
+        ) or (
+            self.dx <= 0 and self.target_rect.x+self.surface.rect.width < 0
+        ):
+            if self.loop:
+                self.target_rect.x = self.start_rect.x
+            else: return False
+
+        if (
+                self.dy > 0 and self.target_rect.y > self.surface.rect.height
+        ) or (
+            self.dy <= 0 and self.target_rect.y+self.surface.rect.height < 0
+        ):
+            if self.loop:
                 self.target_rect.y = self.start_rect.y
+            else: return False
 
         return True
