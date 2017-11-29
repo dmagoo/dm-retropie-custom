@@ -7,6 +7,8 @@ import RPi.GPIO as GPIO
 from __init__ import getConfig
 from rfid.cardscanner import CardScanner
 from rfid.cardserver import CardServer
+from emulationstation import EmulationStation
+from emulationstation import UserDB
 
 config = getConfig()
 
@@ -30,13 +32,13 @@ def end_read(signal,frame):
 
 # Hook the SIGINT
 signal.signal(signal.SIGINT, end_read)
-
-db_path = config.get('rfid', 'db_path')
-launch_cmd = config.get('emulationstation', 'runcommand_path')
+signal.signal(signal.SIGTERM, end_read)
 
 server = CardServer(
     CardScanner(config.getint('rfid','read_delay'), config.getint('rfid', 'scan_delay')),
-    sysv_ipc.MessageQueue(config.getint('rfid', 'message_queue_key'), sysv_ipc.IPC_CREAT)
+    sysv_ipc.MessageQueue(config.getint('rfid', 'message_queue_key'), sysv_ipc.IPC_CREAT),
+    EmulationStation(config.get('emulationstation', 'runcommand_path')),
+    UserDB(config.get('emulationstation', 'db_path'))
 )
 logging.debug("running service")
 server.run()
