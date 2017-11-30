@@ -8,6 +8,7 @@ ExecStart=/home/pi/RetroPie-Custom/scanrfid.py
 User=pi
 WorkingDirectory=/home/pi/RetroPie-Custom
 Restart=on-failure
+Environment=TERM=xterm
 
 [Install]
 WantedBy=multi-user.target
