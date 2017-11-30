@@ -17,7 +17,7 @@ logging.basicConfig(
     level=logging.DEBUG,
     format='%(asctime)s [scanrfid] %(message)s'
 )
-
+logging.info("test")
 #logging.debug('This message should go to the log file')
 #logging.info('So should this')
 #logging.warning('And this, too')
@@ -36,7 +36,7 @@ signal.signal(signal.SIGTERM, end_read)
 
 server = CardServer(
     CardScanner(config.getint('rfid','read_delay'), config.getint('rfid', 'scan_delay')),
-    sysv_ipc.MessageQueue(config.getint('rfid', 'message_queue_key'), sysv_ipc.IPC_CREAT),
+    sysv_ipc.MessageQueue(config.getint('message_queue', 'key'), sysv_ipc.IPC_CREAT),
     EmulationStation(config.get('emulationstation', 'runcommand_path')),
     UserDB(config.get('emulationstation', 'db_path'))
 )

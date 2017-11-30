@@ -1,8 +1,8 @@
 import logging, time
 import sysv_ipc
 from animation import TextScroll
+from messages import MESSAGE_TYPE_MARQUEE
 
-MESSAGE_TYPE_MARQUEE = 2
 READ_DELAY = 2
 
 class MarqueeServer:

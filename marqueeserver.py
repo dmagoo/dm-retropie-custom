@@ -8,7 +8,7 @@ from display import MarqueeServer
 
 config = getConfig()
 
-MQ_KEY = config.getint('display', 'message_queue_key')
+MQ_KEY = config.getint('message_queue', 'key')
 
 logging.basicConfig(filename=config.get('logging', 'log_path'),
                     level=logging.DEBUG,

@@ -130,8 +130,15 @@ pcm.!default card1
 
 Installation of custom Retro Pie scripts
 #Copy .system file to:
-sudo cp /home/pi/RetroPie-Custom/systemd/scanrfid.service /etc/systemd/system/
 sudo cp /home/pi/RetroPie-Custom/systemd/marquee.service /etc/systemd/system/
+
+#dont do this one, we are likely changing this so it runs under autostart.sh
+#sudo cp /home/pi/RetroPie-Custom/systemd/scanrfid.service /etc/systemd/system/
+
+#Edit /opt/retropie/configs/all/autostart.sh so it looks as follows
+python /home/pi/RetroPie-Custom/scanrfid.py &
+emulationstation #auto
+
 
 #make sure python executable can be run by pi
 chmod +x /home/pi/RetroPie-Custom/scanrfid.py

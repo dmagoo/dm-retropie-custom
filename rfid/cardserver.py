@@ -1,7 +1,7 @@
 import logging, time, json
 import sysv_ipc
+from messages import MESSAGE_TYPE_REGISTER, MESSAGE_TYPE_MARQUEE
 
-MESSAGE_TYPE_REGISTER = 1
 REGISTER_WAIT_TIME = 10
 
 class CardServer:
@@ -36,6 +36,7 @@ class CardServer:
                 if register_wait > 0:
                     t_end = time.time() + register_wait
                     logging.info("starting wait period")
+                    self.mq.send("Waiting for RFID...", False, MESSAGE_TYPE_MARQUEE)
                     #debugging... just launch the game when the register message is sent
                     #logging.info("Launching Game")
                     #rom = register_request
@@ -61,12 +62,14 @@ class CardServer:
                     )
                     register_wait = 0
                     register_request = None
+                    self.mq.send("RFID Registered", False, MESSAGE_TYPE_MARQUEE)
                 else:
                     rom = self.db.getRomBinding(uid)
                     if(rom):
                         logging.info("Launching Game")
                         logging.info(rom)
                         self.emulationstation.launchRom(rom["rom"], rom["system"], rom["emulator"])
+                        self.mq.send("Starting game", False, MESSAGE_TYPE_MARQUEE)
                     else:
                         logging.info("Unregistered Card, doing nothing")
 
@@ -76,13 +79,17 @@ class CardServer:
         #check queue for latest mode change request
         try:
             m = self.mq.receive(False, MESSAGE_TYPE_REGISTER)
+
+            print "looking for type:"
+            print MESSAGE_TYPE_REGISTER
             if m:
                 logging.info("register message received")
                 logging.info(m)
                 return json.loads(m[0])
         except sysv_ipc.BusyError:
             pass
-
+        except Exception, e:
+            logging.info("bad stuff")
         return None
 
     def _validateRegisterRequest(self, req):

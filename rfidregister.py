@@ -5,9 +5,9 @@ from optparse import OptionParser
 import sysv_ipc
 import json
 from __init__ import getConfig
-from rfid.cardserver import MESSAGE_TYPE_REGISTER
+from messages import MESSAGE_TYPE_REGISTER
 config = getConfig()
-mq = sysv_ipc.MessageQueue(config.getint('rfid', 'message_queue_key'), sysv_ipc.IPC_CREAT)
+mq = sysv_ipc.MessageQueue(config.getint('message_queue','key'), sysv_ipc.IPC_CREAT)
 
 parser = OptionParser(usage="usage: %prog [options] rom system")
 
