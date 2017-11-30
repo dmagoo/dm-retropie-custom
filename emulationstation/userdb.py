@@ -30,9 +30,10 @@ class UserDB:
     def getRomBinding(self, uid):
         return self.rom_bindings.get(uid)
 
-    def setRomBinding(self, uid, rom_path, emulator):
+    def setRomBinding(self, uid, rom_path, system, emulator=None):
         self.rom_bindings[uid] = {
             "rom": rom_path,
+            "system": system,
             "emulator": emulator
         }
         self._save()

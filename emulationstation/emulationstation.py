@@ -1,4 +1,4 @@
-#restart ES CMD: echo "" > /tmp/es-restart && killall emulationstation
+import logging
 from subprocess import call
 
 class EmulationStation:
@@ -10,12 +10,24 @@ class EmulationStation:
     def restart(self):
         call('echo "" > /tmp/es-restart && killall emulationstation')
 
-    def launchROM(self, rom_path, emulator):
-        #TODO: validate rom path and emulator
-        call(
-            "{0} 0 _SYS_ {1} {2}".format(
+    def launchROM(self, rom_path, system, emulator):
+        """ raises a child_exception of subproc cannot execute command """
+        #TODO: validate rom path and system
+        #TODO: allow emulator to override _SYS_ default
+        #if restart is true, re
+        logging.info("{0} 0 _SYS_ {1} {2}".format(
+            self.runcommand_path,
+            system,
+            rom_path
+            ))
+
+        cmd = "{0} 0 _SYS_ {1} {2}".format(
                 self.runcommand_path,
-                rom_path,
-                emulator)
-        )
+                system,
+                rom_path
+                )
+
+        #cmd = "(true || killall emulationstation) && (true || " + cmd + ") && emulationstation"
+
+        call(cmd, shell=True)
 
