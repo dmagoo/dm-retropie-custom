@@ -147,4 +147,4 @@ sudo systemctl start scanrfid.service
 sudo systemctl start marquee.service
 
 #move emustation scripts
-cp -r /home/pi/RetroPie-Custom/runcommand/* /opt/retropie/configs/all/
+cp -rf /home/pi/RetroPie-Custom/runcommand/* /opt/retropie/configs/all/
